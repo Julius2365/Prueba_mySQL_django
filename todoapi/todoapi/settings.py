@@ -82,11 +82,10 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'todos',
         'USER': 'root',
-        'PASSWORD': '',
+        'PASSWORD': 'jeriS1324#',
         'HOST': 'localhost',
         'PORT': '3306',
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+
     }
 }
 
