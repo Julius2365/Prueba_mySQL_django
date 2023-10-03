@@ -1,11 +1,15 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.mixins import UpdateModelMixin, DestroyModelMixin
+from django.http import JsonResponse
 
 from .models import Todo
 from .serializers import TodoSerializer
 
 
+def mi_vista(request):
+  data = {'mensaje': 'Hola, este es mi endpoint!'}
+  return JsonResponse(data)
 class TodoListView(
   APIView, # Basic View class provided by the Django Rest Framework
   UpdateModelMixin, # Mixin that allows the basic APIView to handle PUT HTTP requests
