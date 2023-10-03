@@ -1,5 +1,9 @@
 from django.db import models
 
+
+
+class Todo(models.Model):
+  algun_criterio = models.BooleanField(default=True)
 # Create your models here.
 class Todo(models.Model):
   id = models.AutoField(

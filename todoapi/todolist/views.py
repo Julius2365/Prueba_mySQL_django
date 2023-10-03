@@ -2,9 +2,42 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.mixins import UpdateModelMixin, DestroyModelMixin
 from django.http import JsonResponse
+from django.template import loader
 
+from django.contrib.auth.decorators import  login_required
 from .models import Todo
 from .serializers import TodoSerializer
+
+
+def endpoint_con_parametros(request, parametro):
+  if request.method == 'GET':
+    # Acceder a los parámetros de la solicitud GET
+    valor = request.GET.get('clave', 'default')
+    data = {'parametro': parametro, 'valor': valor}
+    return JsonResponse(data)
+  elif request.method == 'POST':
+    # Acceder a los datos del cuerpo de la solicitud POST
+    datos_post = request.POST.get('clave', 'default')
+    data = {'parametro': parametro, 'datos_post': datos_post}
+    return JsonResponse(data)
+
+
+
+def endpoint_xml(request):
+  datos = {'clave': 'valor'}  # Tus datos para convertir a XML
+  template = loader.get_template('archivo_xml.xml')
+  xml_data = template.render({'datos': datos})
+  return HttpResponse(xml_data, content_type='application/xml')
+
+def endpoint_autenticado(request):
+  usuario= request.user
+  data= {'mensaje':f'Hola,{usuario.username}!Este es un endpoint protegido'}
+  return JsonResponse(data)
+
+def obtener_datos(request):
+  datos=Todo.objects.filter(id=True)
+  data={'datos':list(datos.values())}
+  return JsonResponse(data)
 
 
 def mi_vista(request):
