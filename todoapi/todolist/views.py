@@ -14,6 +14,14 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Libro
 from .forms import LibroForm
 
+def mi_vista(request):
+    contexto={
+        'titulo':'Hola, Mundo',
+        'contenido':'Este es un ejemplo de Django'
+    }
+    return render(request,'mi_vista.html',contexto)
+
+
 def crear_libro(request):
     if request.method == 'POST':
         form = LibroForm(request.POST)
