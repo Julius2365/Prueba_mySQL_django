@@ -1,0 +1,5 @@
+<root>
+    <elemento>
+        <clave>{{ datos.clave }}</clave>
+    </elemento>
+</root>

@@ -3,10 +3,48 @@ from rest_framework.response import Response
 from rest_framework.mixins import UpdateModelMixin, DestroyModelMixin
 from django.http import JsonResponse
 from django.template import loader
+from django.http import HttpResponse
+
 
 from django.contrib.auth.decorators import  login_required
 from .models import Todo
 from .serializers import TodoSerializer
+
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Libro
+from .forms import LibroForm
+
+def crear_libro(request):
+    if request.method == 'POST':
+        form = LibroForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('lista-libros')  # Redirige a la lista de libros después de crear uno
+    else:
+        form = LibroForm()
+    return render(request, 'crear_libro.html', {'form': form})
+
+def lista_libros(request):
+    libros = Libro.objects.all()
+    return render(request, 'lista_libros.html', {'libros': libros})
+
+def actualizar_libro(request, pk):
+    libro = get_object_or_404(Libro, pk=pk)
+    if request.method == 'POST':
+        form = LibroForm(request.POST, instance=libro)
+        if form.is_valid():
+            form.save()
+            return redirect('lista-libros')
+    else:
+        form = LibroForm(instance=libro)
+    return render(request, 'actualizar_libro.html', {'form': form})
+
+def eliminar_libro(request, pk):
+    libro = get_object_or_404(Libro, pk=pk)
+    libro.delete()
+    return redirect('lista-libros')
+
+
 
 
 def endpoint_con_parametros(request, parametro):
